@@ -64,11 +64,8 @@ class UserService(object):
         if exist_user:
             raise Exception('Email already exists')
         register_user = User(
-            full_name=data.full_name,
             email=data.email,
             hashed_password=get_password_hash(data.password),
-            is_active=True,
-            role=data.role.value,
         )
         db.session.add(register_user)
         db.session.commit()

@@ -8,9 +8,7 @@ from app.schemas.sche_base import MappingByFieldName
 
 
 class UserBase(MappingByFieldName):
-    full_name: Optional[str] = None
     email: Optional[EmailStr] = None
-    is_active: Optional[bool] = True
 
     class Config:
         orm_mode = True
@@ -18,12 +16,7 @@ class UserBase(MappingByFieldName):
 
 class UserItemResponse(UserBase):
     id: int
-    full_name: str
     email: EmailStr
-    is_active: bool
-    role: str
-    last_login: Optional[datetime]
-
 
 class UserCreateRequest(UserBase):
     full_name: Optional[str]
@@ -34,10 +27,8 @@ class UserCreateRequest(UserBase):
 
 
 class UserRegisterRequest(MappingByFieldName):
-    full_name: str
     email: EmailStr
     password: str
-    role: UserRole = UserRole.GUEST
 
 
 class UserUpdateMeRequest(MappingByFieldName):

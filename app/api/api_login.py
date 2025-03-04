@@ -22,8 +22,8 @@ def login_access_token(form_data: LoginRequest, user_service: UserService = Depe
     user = user_service.authenticate(email=form_data.username, password=form_data.password)
     if not user:
         raise HTTPException(status_code=400, detail='Incorrect email or password')
-    elif not user.is_active:
-        raise HTTPException(status_code=401, detail='Inactive user')
+    # elif not user.is_active:
+    #     raise HTTPException(status_code=401, detail='Inactive user')
 
     user.last_login = datetime.now()
     db.session.commit()
