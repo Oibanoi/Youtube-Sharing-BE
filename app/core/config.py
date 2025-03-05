@@ -9,6 +9,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 class Settings(BaseSettings):
     PROJECT_NAME = os.getenv('PROJECT_NAME', 'FASTAPI BASE')
     SECRET_KEY = os.getenv('SECRET_KEY', '')
+    API_KEY=os.getenv('API_KEY', '')
     API_PREFIX = ''
     BACKEND_CORS_ORIGINS = ['*']
     DATABASE_URL = os.getenv('SQL_DATABASE_URL', '')

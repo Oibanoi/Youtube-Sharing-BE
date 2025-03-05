@@ -1,17 +1,7 @@
-import jwt
-
-from typing import Optional
-from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer
 from fastapi_sqlalchemy import db
-from pydantic import ValidationError
-from starlette import status
 
-from app.models import User, Video
-from app.core.config import settings
-from app.core.security import verify_password, get_password_hash
-from app.schemas.sche_token import TokenPayload
-from app.schemas.sche_user import UserCreateRequest, UserUpdateMeRequest, UserUpdateRequest, UserRegisterRequest
+from app.helpers.video_handler import get_youtube_info_api
+from app.models import Video
 from app.schemas.sche_video import VideoCreateRequest
 
 
@@ -25,9 +15,13 @@ class VideoService(object):
         new_video = Video(
             user_id=data.user_id,
             youtube_url=data.video_url,
-            title="YouTube",
-            description="Video description",
+            title="title",
+            description="description",
         )
+        video_info = get_youtube_info_api(data.video_url)
+        if video_info:
+            new_video.title = video_info["title"]
+            new_video.description = video_info["description"]
         db.session.add(new_video)
         db.session.commit()
         return new_video
