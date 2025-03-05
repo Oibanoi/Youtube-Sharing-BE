@@ -11,9 +11,9 @@ class VideoService(object):
     def __init__(self) -> None:
         pass
 
-    def create_video(self, data: VideoCreateRequest):
+    def create_video(self, data: VideoCreateRequest, user_id: int) -> Video:
         new_video = Video(
-            user_id=data.user_id,
+            user_id=user_id,
             youtube_url=data.video_url,
             title="title",
             description="description",

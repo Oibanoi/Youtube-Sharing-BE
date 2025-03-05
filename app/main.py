@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 import uvicorn
@@ -8,17 +7,16 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.api_router import router
 from app.core.ws_manager import WebSocketManager
+
 from app.models import Base
 from app.db.base import engine
 from app.core.config import settings
 from app.helpers.exception_handler import CustomException, http_exception_handler
 
+ws_manager = WebSocketManager()
 logging.config.fileConfig(settings.LOGGING_CONFIG_FILE, disable_existing_loggers=False)
 Base.metadata.create_all(bind=engine)
 
-
-
-ws_manager= WebSocketManager()
 def get_application() -> FastAPI:
     application = FastAPI(
         title=settings.PROJECT_NAME, docs_url="/docs", redoc_url='/re-docs',
@@ -40,7 +38,7 @@ def get_application() -> FastAPI:
         allow_headers=["*"],
     )
     application.add_middleware(DBSessionMiddleware, db_url=settings.DATABASE_URL)
-    application.include_router(router, prefix=settings.API_PREFIX)
+    application.include_router(router)
     application.add_exception_handler(CustomException, http_exception_handler)
 
     return application
@@ -48,23 +46,5 @@ def get_application() -> FastAPI:
 
 app = get_application()
 
-
-async def start_websocket_server():
-    """Khởi động WebSocket server bằng uvicorn"""
-    config = uvicorn.Config("main:app", host="0.0.0.0", port=8000)
-    server = uvicorn.Server(config)
-    await server.serve()
-
-
-async def main():
-    # Chạy WebSocket server
-    websocket_task = asyncio.create_task(start_websocket_server())
-
-    # Chạy FastAPI app
-    config = uvicorn.Config("main:app", host="0.0.0.0", port=8000)
-    server = uvicorn.Server(config)
-    await server.serve()
-
-
 if __name__ == '__main__':
-    asyncio.run(main())
+    uvicorn.run(app, host="0.0.0.0", port=8000)

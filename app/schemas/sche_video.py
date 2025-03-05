@@ -22,6 +22,5 @@ class VideoItemResponse(MappingByFieldName):
 
 
 class VideoCreateRequest(UserBase):
-    user_id: int
     video_url: str
 
