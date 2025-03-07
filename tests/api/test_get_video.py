@@ -1,25 +1,10 @@
-import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import patch, MagicMock
-
 from sqlalchemy.orm import Session
 
-from app.models import User, Video
-from app.schemas.sche_video import VideoItemResponse
-from app.helpers.paging import paginate, PaginationParams, Page
-from app.schemas.sche_base import MetadataSchema
+from app.helpers.paging import PaginationParams
+from app.models import Video
 from tests.providers import CommonProvider
 
-# Mock user data for bypassing authentication
-mock_user = User(id=1, email="user@example.com")
-
-# Mock video data to simulate the response from the paginate function
-mock_video_data = [
-    VideoItemResponse(id=1, title="Video 1", description="Description 1", user_name="user1@example.com",
-                      youtube_url="https://youtube.com/video1"),
-    VideoItemResponse(id=2, title="Video 2", description="Description 2", user_name="user2@example.com",
-                      youtube_url="https://youtube.com/video2")
-]
 def init_data(session:Session):
     videos=[
         Video(
@@ -40,7 +25,7 @@ def init_data(session:Session):
     return CommonProvider.create(session=session,models=videos)
 
 
-def test_get_videos(client,  db_session: Session):
+def test_get_videos(client: TestClient,  db_session: Session):
     # Mock pagination parameters
     params = PaginationParams(page=1, page_size=2, order="asc", sort_by="title")
     data=init_data(db_session)
