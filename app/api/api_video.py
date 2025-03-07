@@ -22,12 +22,12 @@ router = APIRouter()
 ws_manager = WebSocketManager()
 
 @router.get("", response_model=Page[VideoItemResponse])
-def get(params: PaginationParams = Depends(), session:Session=Depends(get_db)) -> Any:
+def get(params: PaginationParams = Depends()) -> Any:
     """
     API Get list Video
     """
     try:
-        _query = session.query(
+        _query = db.session.query(
             Video.id,
             Video.youtube_url,
             Video.title,

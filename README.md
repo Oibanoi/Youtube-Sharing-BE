@@ -3,24 +3,7 @@
 # FASTAPI BASE
 
 ## Introduction
-Dựng khung project để phát triển dự án khá tốn kém thời gian và công sức.
 
-Vì vậy mình quyết định dựng FastAPI Base cung cấp sẵn các function basic nhất như CRUD User, Login, Register.
-
-Project đã bao gồm migration DB và pytest để sẵn sàng sử dụng trong môi trường doanh nghiệp.
-
-## Source Library
-Đây là phiên bản Backend base từ framework FastAPI. Trong code base này đã cấu hình sẵn
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Postgresql(>=12)](https://www.postgresql.org/)
-- Alembic
-- API Login
-- API CRUD User, API Get Me & API Update Me
-- Pagination
-- Authen/Authorize với JWT
-- Permission_required & Login_required
-- Logging
-- Pytest
 
 ## Installation
 **Cách 1:**
@@ -123,11 +106,22 @@ def downgrade():
 ...
 ```
 
-## Guide: Tạo bảng Book quản lý list sách bằng migration
-Link [CREATE_DB_GUIDE.md](./document/CREATE_DB_GUIDE.md)
+**Lưu ý:**   
+Setup database để chạy local bằng alembic
+
+```
+$ alembic upgrade head
+```
+Mỗi khi thay đổi DB, ta cần thay đổi các model trong folder app/models 
+```
+$ alembic revision --autogenerate 
+$ alembic upgrade head
+```
 
 
-## FastAPI UI
-Song song với FastAPI backend, đây là phiên bản Frontend tương thích với project này.
 
-URL: [FastAPI Base Frontend](https://github.com/Longdh57/FastAPI-Base-Frontend)
+## Unit Test
+
+
+
+## Deploy bằng docker
