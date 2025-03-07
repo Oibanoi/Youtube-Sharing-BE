@@ -19,7 +19,7 @@ router = APIRouter()
 
 ws_manager = WebSocketManager()
 
-@router.get("", dependencies=[Depends(login_required)], response_model=Page[VideoItemResponse])
+@router.get("", response_model=Page[VideoItemResponse])
 def get(params: PaginationParams = Depends()) -> Any:
     """
     API Get list Video
@@ -30,7 +30,7 @@ def get(params: PaginationParams = Depends()) -> Any:
             Video.youtube_url,
             Video.title,
             Video.description,
-            User.email.label("user_name")  # Đổi user_id thành username
+            User.email.label("user_name")
         ).join(User, Video.user_id == User.id)
         videos = paginate(model=User, query=_query, params=params)
         return videos
@@ -48,6 +48,8 @@ def create(video_data: VideoCreateRequest, background_tasks: BackgroundTasks, vi
     API Create video
     """
     try:
+        if not video_data.video_url:
+            raise HTTPException(status_code=400, detail='Incorrect email or password')
         new_video = video_service.create_video(video_data, current_user.id)
         resp:VideoItemResponse = VideoItemResponse(
             id=new_video.id,

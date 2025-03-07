@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi_sqlalchemy import db
 
 from app.helpers.video_handler import get_youtube_info_api
@@ -22,6 +23,8 @@ class VideoService(object):
         if video_info:
             new_video.title = video_info["title"]
             new_video.description = video_info["description"]
+        if not new_video.title and not new_video.description:
+            raise HTTPException(status_code=400, detail='Incorrect email or password')
         db.session.add(new_video)
         db.session.commit()
         return new_video

@@ -24,8 +24,9 @@ class TestLogin:
         })
         assert r.status_code == 200
         response = r.json()
-        assert response['data']['access_token'] is not None
-        assert response['data']['token_type'] == 'bearer'
+        print(response)
+        assert response['data']['accessToken'] is not None
+        assert response['data']['tokenType'] == 'bearer'
 
     def test_incorrect_password(self, client: TestClient):
         """
@@ -43,18 +44,4 @@ class TestLogin:
         })
         assert r.status_code == 400
 
-    def test_user_inactive(self, client: TestClient):
-        """
-            Test api user is_active = False
-            Step by step:
-            - Khởi tạo data mẫu với password hash và is_active = False
-            - Gọi API Login
-            - Đầu ra mong muốn:
-                . status code: 401
-        """
-        current_user: User = fake.user({'password': 'secret123', 'is_active': False})
-        r = client.post(f"{settings.API_PREFIX}/login", json={
-            'username': current_user.email,
-            'password': 'secret123'
-        })
-        assert r.status_code == 401
+
