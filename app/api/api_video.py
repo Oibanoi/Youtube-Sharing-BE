@@ -3,8 +3,10 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi_sqlalchemy import db
+from sqlalchemy.orm import Session
 
 from app.core.ws_manager import WebSocketManager
+from app.db.base import get_db
 from app.helpers.exception_handler import CustomException
 from app.helpers.login_manager import login_required
 from app.helpers.paging import Page, PaginationParams, paginate
@@ -20,12 +22,12 @@ router = APIRouter()
 ws_manager = WebSocketManager()
 
 @router.get("", response_model=Page[VideoItemResponse])
-def get(params: PaginationParams = Depends()) -> Any:
+def get(params: PaginationParams = Depends(), session:Session=Depends(get_db)) -> Any:
     """
     API Get list Video
     """
     try:
-        _query = db.session.query(
+        _query = session.query(
             Video.id,
             Video.youtube_url,
             Video.title,

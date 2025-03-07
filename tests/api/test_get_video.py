@@ -43,7 +43,7 @@ def init_data(session:Session):
 def test_get_videos(client,  db_session: Session):
     # Mock pagination parameters
     params = PaginationParams(page=1, page_size=2, order="asc", sort_by="title")
-    init_data(db_session)
+    data=init_data(db_session)
     # Call the API endpoint with the mocked paginate function
     response = client.get("/videos", params={"page": params.page, "page_size": params.page_size})
 
