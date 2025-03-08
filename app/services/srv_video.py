@@ -13,18 +13,21 @@ class VideoService(object):
         pass
 
     def create_video(self, data: VideoCreateRequest, user_id: int) -> Video:
+
+        if not data.video_url:
+            raise HTTPException(status_code=400, detail='URL is null')
         new_video = Video(
             user_id=user_id,
             youtube_url=data.video_url,
-            title="title",
-            description="description",
+            title="",
+            description="",
         )
         video_info = get_youtube_info_api(data.video_url)
         if video_info:
             new_video.title = video_info["title"]
             new_video.description = video_info["description"]
         if not new_video.title and not new_video.description:
-            raise HTTPException(status_code=400, detail='Incorrect email or password')
+            raise HTTPException(status_code=400, detail='Video not found')
         db.session.add(new_video)
         db.session.commit()
         return new_video

@@ -3,38 +3,57 @@
 # FASTAPI BASE
 
 ## Introduction
+**Back-end sử dụng FastAPI cho project sharing youtube app**  
+**Base code đã được cấu hình sẵn:**
+- FastAPI
+- Postgres
+- Alembic
+- Authen/Author với JWT
+- Logging
+- Pytest  
 
+**Các tính năng trong app:**
+- API login, register
+- API config user cho admin
+- API get, create video youtube, lấy title và description từ youtube
+- Pagination
+- Websocket để thông báo real time khi người dùng thêm 1 video mới
 
 ## Installation
 **Cách 1:**
 - Clone Project
-- Cài đặt Postgresql & Create Database
+- Tạo venv
 - Cài đặt requirements.txt
 - Run project ở cổng 8000
 ```
-// Tạo postgresql Databases via CLI (Ubuntu 20.04)
-$ sudo -u postgres psql
-# CREATE DATABASE fastapi_base;
-# CREATE USER db_user WITH PASSWORD 'secret123';
-# GRANT ALL PRIVILEGES ON DATABASE fastapi_base TO db_user;
-
 // Clone project & run
-$ git clone https://github.com/Longdh57/fastapi-base
-$ cd fastapi-base
-$ virtualenv -p python3 .venv
+$ git clone https://github.com/Oibanoi/Youtube-Sharing-BE.git
+$ cd Youtube-Sharing-BE
+```
+- Tạo venv 
+1.  Trên windows
+```
+$ python -m venv .venv
+$ .venv\Scripts\activate
+```
+2. Trên linux
+```
+$ python3 -m venv .venv
 $ source .venv/bin/activate
+```
+- Cài đặt thư viện và cấu hình env
+```
 $ pip install -r requirements.txt
 $ cp env.example .env       // Recheck SQL_DATABASE_URL ở bước này
 $ alembic upgrade head
 $ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-**Cách 2:** Dùng Docker & Docker Compose - đơn giản hơn nhưng cần có kiến thức Docker
+**Cách 2:** Dùng Docker & Docker Compose 
 - Clone Project
 - Run docker-compose
 ```
-$ git clone https://github.com/Longdh57/fastapi-base
-$ cd fastapi-base
-$ DOCKER_BUILDKIT=1 docker build -t fastapi-base:latest .
+$ git clone https://github.com/Oibanoi/Youtube-Sharing-BE.git
+$ cd Youtube-Sharing-BE
 $ docker-compose up -d
 ```
 
@@ -70,8 +89,6 @@ $ docker-compose up -d
 └── requirements.txt    // file chứa các thư viện để cài đặt qua pip install
 ```
 
-## Demo URL
-[FASTAPI-BASE](http://fastapi-base.longblog.site/docs)
 
 ## Migration
 Migration là một tính năng cho phép bạn thay đổi cả cấu trúc và dữ liệu trong database.

@@ -49,20 +49,15 @@ def create(video_data: VideoCreateRequest, background_tasks: BackgroundTasks, vi
     """
     API Create video
     """
-    try:
-        if not video_data.video_url:
-            raise HTTPException(status_code=400, detail='Incorrect email or password')
-        new_video = video_service.create_video(video_data, current_user.id)
-        resp:VideoItemResponse = VideoItemResponse(
-            id=new_video.id,
-            title=new_video.title,
-            description=new_video.description,
-            user_name=current_user.email,
-            youtube_url=new_video.youtube_url,
-        )
-        background_tasks.add_task(send_noti, resp)
-        return DataResponse().success_response(data=resp)
-    except Exception as e:
-        raise CustomException(http_code=400, code='400', message=str(e))
+    new_video = video_service.create_video(video_data, current_user.id)
+    resp:VideoItemResponse = VideoItemResponse(
+        id=new_video.id,
+        title=new_video.title,
+        description=new_video.description,
+        user_name=current_user.email,
+        youtube_url=new_video.youtube_url,
+    )
+    background_tasks.add_task(send_noti, resp)
+    return DataResponse().success_response(data=resp)
 
 
