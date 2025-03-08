@@ -125,3 +125,12 @@ $ alembic upgrade head
 
 
 ## Deploy bằng docker
+1. Build the docker image
+```
+$ docker build -t sharing-yt .
+```
+2. Rename to push iamge to docker hub
+```
+$ docker tag sharing-yt huupb/sharing-yt:1.0
+$ docker push huupb/sharing-yt:1.0
+```

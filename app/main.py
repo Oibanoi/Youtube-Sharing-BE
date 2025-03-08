@@ -22,12 +22,7 @@ def get_application() -> FastAPI:
         title=settings.PROJECT_NAME, docs_url="/docs", redoc_url='/re-docs',
         openapi_url=f"{settings.API_PREFIX}/openapi.json",
         description='''
-        Base frame with FastAPI micro framework + Postgresql
-            - Login/Register with JWT
-            - Permission
-            - CRUD User
-            - Unit testing with Pytest
-            - Dockerize
+        Youtube sharing app with real-time notification
         '''
     )
     application.add_middleware(

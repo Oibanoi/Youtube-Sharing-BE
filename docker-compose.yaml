@@ -17,19 +17,19 @@ services:
     restart: unless-stopped
 
   alembic:
-    image: fastapi-base:latest
+    image: huupb/sharing-yt:1.0
     environment:
-      SQL_DATABASE_URL: 'postgresql+psycopg2://postgres:postgres@db:5432/postgres'
+      SQL_DATABASE_URL: 'postgresql+psycopg2://postgres:postgres@db:5432/ytsharing'
       SECRET_KEY: ${SECRET_KEY}
     command: [ "alembic", "upgrade", "head" ]
     depends_on:
       - db
 
   app:
-    image: fastapi-base:latest
+    image: huupb/sharing-yt:1.0
     environment:
       PROJECT_NAME: ${PROJECT_NAME}
-      SQL_DATABASE_URL: 'postgresql+psycopg2://postgres:postgres@db:5432/postgres'
+      SQL_DATABASE_URL: 'postgresql+psycopg2://postgres:postgres@db:5432/ytsharing'
       SECRET_KEY: ${SECRET_KEY}
     ports:
       - "8000:8000"

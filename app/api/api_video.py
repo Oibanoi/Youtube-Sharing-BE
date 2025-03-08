@@ -40,7 +40,7 @@ def get(params: PaginationParams = Depends()) -> Any:
         return HTTPException(status_code=400, detail=logger.error(e))
 
 async def send_noti(video_data:VideoItemResponse):
-    message= "User :{} just post new video {}".format(video_data.user_name,video_data.title)
+    message= "User: {} just post new video {}".format(video_data.user_name,video_data.title)
     print(message)
     await ws_manager.broadcast(message)
 

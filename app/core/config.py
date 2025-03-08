@@ -7,7 +7,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME = os.getenv('PROJECT_NAME', 'FASTAPI BASE')
+    PROJECT_NAME = os.getenv('PROJECT_NAME', 'Youtube sharing app')
     SECRET_KEY = os.getenv('SECRET_KEY', '')
     API_KEY=os.getenv('API_KEY', '')
     API_PREFIX = ''
